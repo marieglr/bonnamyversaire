@@ -1,35 +1,102 @@
+const princesseLeia = new Image();
+princesseLeia.src = "./img/princesse-leia.png"
+
+const nerd = new Image();
+nerd.src = "./img/nerd.png"
+
+const feminisme = new Image();
+feminisme.src = "./img/feminisme.png"
+
+const velo = new Image();
+velo.src = "./img/velo.png"
+
+const sevenWonders = new Image();
+sevenWonders.src = "./img/7wonders.png"
+
+const yoga = new Image();
+yoga.src = "./img/yoga.png"
+
+const renard = new Image();
+renard.src = "./img/renard.png"
+
+const cannoloSiciliano = new Image();
+cannoloSiciliano.src = "./img/cannolo-siciliano.png"
+
+const marioKart = new Image();
+marioKart.src = "./img/mario-kart.png"
+
+const machineACoudre = new Image();
+machineACoudre.src = "./img/machine-a-coudre.png"
+
 
 const images = [
-  "princesse-leia.png",
-  "nerd.png",
-  "feminisme.png",
-  "velo.png",
-  "7wonders.png",
-  "yoga.png",
-  "renard.png",
-  "cannolo-siciliano.png",
-  "mario-kart.png",
-  "machine-a-coudre.png",
-  "princesse-leia.png",
-  "nerd.png",
-  "feminisme.png",
-  "velo.png",
-  "7wonders.png",
-  "yoga.png",
-  "renard.png",
-  "cannolo-siciliano.png",
-  "mario-kart.png",
-  "machine-a-coudre.png"
+  princesseLeia,
+  nerd,
+  feminisme,
+  velo,
+  sevenWonders,
+  yoga,
+  renard,
+  cannoloSiciliano,
+  marioKart,
+  machineACoudre,
+  princesseLeia,
+  nerd,
+  feminisme,
+  velo,
+  sevenWonders,
+  yoga,
+  renard,
+  cannoloSiciliano,
+  marioKart,
+  machineACoudre,
 ];
+
 
 let moves = 0;
 
 let pairs = 0;
 
+// const soundElement = document.getElementById("sound")
+          
+
+//           console.log(soundElement)
+
+function Sound(src) {
+  this.sound = document.createElement("audio");
+  this.sound.src = src;
+  this.sound.setAttribute("perload", "auto");
+  this.sound.setAttribute("controls", "none");
+  this.sound.style.display = "none";
+  document.body.appendChild(this.sound);
+  this.sound.imageElement = document.getElementById("sound");
+  this.sound.imageElement.addEventListener("click", handleMusic)
+  this.play = function(){
+    this.sound.play();
+    this.isPlaying = true;
+    this.sound.imageElement.setAttribute("src", "./img/mute.png");
+  }
+  this.stop = function(){
+    this.sound.pause();
+    this.isPlaying = false;
+    this.sound.imageElement.setAttribute("src", "./img/sound.png" )
+  }
+}
+
+const gino_paoli = new Sound("./sounds/GINO_PAOLI.mp3");
+
+function handleMusic(){
+  gino_paoli.isPlaying ? gino_paoli.stop() : gino_paoli.play();
+}
+
+let isFirstClick = true
+
 window.onload = (function() {
   const imagesMix = images.sort(function(a, b) {
     return 0.5 - Math.random();
   });
+
+
 
   const cards = document.querySelectorAll(".image");
   cards.forEach(card => card.addEventListener("click", uncover));
@@ -37,7 +104,11 @@ window.onload = (function() {
   let cardsUncovered = [];
 
   function uncover(event) {
-    let isCover = event.target.dataset.iscover;
+    
+    if (!gino_paoli.isPlaying && !gino_paoli.isPaused){
+      gino_paoli.play()
+      isFirstClick = false
+    }
 
     let { id } = event.target;
 
@@ -46,7 +117,7 @@ window.onload = (function() {
     cardsUncovered.push(id);
 
     if (cardsUncovered.length === 1) {
-      card.style.background = `url("img/${imagesMix[id]}")`;
+      card.style.background = `url("${imagesMix[id].src}")`;
       card.style.backgroundSize = "cover";
 
       card.removeEventListener("click", uncover);
@@ -60,7 +131,7 @@ window.onload = (function() {
     if (cardsUncovered.length === 2) {
       card.removeEventListener("click", uncover);
 
-      card.style.background = `url("img/${imagesMix[id]}")`;
+      card.style.background = `url("${imagesMix[id].src}")`;
       card.style.backgroundSize = "cover";
 
       let cardOne = imagesMix[cardsUncovered[0]];
@@ -73,14 +144,14 @@ window.onload = (function() {
 
         document.querySelector(
           `[id="${cardsUncovered[0]}"]`
-        ).style.background = `url("img/y${imagesMix[cardsUncovered[0]]}")`;
+        ).style.background = `url("${imagesMix[cardsUncovered[0]].src}")`;
         document.querySelector(
           `[id="${cardsUncovered[0]}"]`
         ).style.backgroundSize = "cover";
 
         document.querySelector(
           `[id="${cardsUncovered[1]}"]`
-        ).style.background = `url("img/y${imagesMix[cardsUncovered[1]]}")`;
+        ).style.background = `url("${imagesMix[cardsUncovered[1]].src}")`;
         document.querySelector(
           `[id="${cardsUncovered[1]}"]`
         ).style.backgroundSize = "cover";
@@ -101,7 +172,6 @@ window.onload = (function() {
         setTimeout(hide, 700);
 
         function hide() {
-          //hide cards
           document.querySelector(
             `[id="${cardsUncovered[0]}"]`
           ).style.background = `url("img/images.png")`;
@@ -115,7 +185,6 @@ window.onload = (function() {
             `[id="${cardsUncovered[1]}"]`
           ).style.backgroundSize = "cover";
 
-          //add listener uncover
           document
             .querySelector(`[id="${cardsUncovered[0]}"]`)
             .addEventListener("click", uncover);
@@ -126,7 +195,6 @@ window.onload = (function() {
           cardsUncovered.pop();
           cardsUncovered.pop();
           cardsUncovered.pop();
-          console.log(cardsUncovered);
         }
       }
     }
@@ -191,14 +259,14 @@ function timerPause() {
   ).innerHTML = `<button  onclick="timerPlay()" class="aside-btn zegar" ><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Play</button>`;
 }
 
+
 function win() {
   document.querySelector("#overlay").style.display = "block";
 
   document.querySelector("#popup").innerHTML = `
-<div id="close" onclick="hideWin()">X</div><h2>Congratulations!</h2>
-   <br><p>You found all pairs<br><br>
-   Your time: <span class="b"> ${minutes + " : " + seconds}</span><br>
-   Number of moves: <span class="b"> ${moves} </span></p>
+<div id="close" onclick="hideWin()">X</div><h2>Forever 29!</h2>
+   Temps: <span class="b"> ${minutes + " : " + seconds}</span><br>
+   Nombre de coups: <span class="b"> ${moves} </span></p>
    <button class="aside-btn zegar" onclick="startAgain()">Rejouer</button>`;
 }
 
