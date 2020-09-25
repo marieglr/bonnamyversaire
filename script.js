@@ -54,13 +54,8 @@ const images = [
 
 
 let moves = 0;
-
 let pairs = 0;
 
-// const soundElement = document.getElementById("sound")
-          
-
-//           console.log(soundElement)
 
 function Sound(src) {
   this.sound = document.createElement("audio");
@@ -95,8 +90,6 @@ window.onload = (function() {
   const imagesMix = images.sort(function(a, b) {
     return 0.5 - Math.random();
   });
-
-
 
   const cards = document.querySelectorAll(".image");
   cards.forEach(card => card.addEventListener("click", uncover));
